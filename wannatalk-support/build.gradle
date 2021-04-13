@@ -1,6 +1,9 @@
 plugins {
     id 'com.android.library'
     id 'maven-publish'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+    id 'kotlin-kapt'
 }
 
 repositories {
@@ -11,7 +14,7 @@ repositories {
 }
 
 group = 'ai.wannatalk.wannatalk'
-version = '1.0.0'
+version = '1.0.1'
 
 android {
     compileSdkVersion 28
@@ -38,48 +41,222 @@ android {
     }
 }
 
+
 ext {
-    supportVersion = "28.0.0"
+
+
+    defaultSupportLibVersion = "28.0.0"
+    defaultAsyncLibVersion = "1.0.3"
+
+    defaultOttoLibVersion = "1.3.8"
+//    defaultGsonLibVersion = "2.6.2"
+    defaultRetrofitLibVersion = "2.3.0"
+    defaultRetrofitGsonLibVersion = "2.0.2"
+    defaultGsonLibVersion = "2.8.2"
+    defaultMultiDexLibVersion = "1.0.2"
+    defaultCommonsIOLibVersion = "2.4"
+
+    defaultGlideLibVersion = "3.7.0"
+    defaultGlideTransLibVersion = "2.0.1"
+
+    defaultFrescoLibVersion =  "1.8.1" //"2.3.0" //"1.5.0"
+
+    defaultAwsLibVersion = "2.22.2"// "2.15.2" //"2.6.7"
+    defaultGuavaLibVersion = "23.0-android"
+    defaultLinkMovementLibVersion = "2.2.0"//"1.2"
+    defaultTagViewLibVersion = "1.1.4"
+    defaultSpinnerMaterialLibVersion = "1.1.0"
+    defaultGoogleLibVersion = "21.0.0"
+
+    /*
+    supportLibVersion = "28.0.0"
+    asyncLibVersion = "1.0.3"
+    ottoLibVersion = "1.3.8"
+//    gsonLibVersion = "2.6.2"
+    retrofitLibVersion = "2.3.0"
+    retrofitGsonLibVersion = "2.0.2"
+    gsonLibVersion = "2.8.2"
+    multiDexLibVersion = "1.0.0"
+    commonsIOLibVersion = "2.4"
+    glideLibVersion = "3.7.0"
+    glideTransLibVersion = "2.0.1"
+    frescoLibVersion = "1.5.0"
+    awsLibVersion = "2.6.7"
+    guavaLibVersion = "23.0-android"
+    linkMovementLibVersion = "1.2"
+    tagViewLibVersion = "1.1.4"
+    spinnerMaterialLibVersion = "1.1.0"
+    googleLibVersion = "10.2.1"
+
+    */
+
+    supportLibVersion = rootProject.hasProperty("supportLibVersion") ? rootProject.supportLibVersion : defaultSupportLibVersion
+    asyncLibVersion = rootProject.hasProperty("asyncLibVersion") ? rootProject.asyncLibVersion : defaultAsyncLibVersion
+    ottoLibVersion = rootProject.hasProperty("ottoLibVersion") ? rootProject.ottoLibVersion : defaultOttoLibVersion
+//    gsonLibVersion = rootProject.hasProperty("gsonLibVersion") ? rootProject.gsonLibVersion : defaultGsonLibVersion
+    retrofitLibVersion = rootProject.hasProperty("retrofitLibVersion") ? rootProject.retrofitLibVersion : defaultRetrofitLibVersion
+    retrofitGsonLibVersion = rootProject.hasProperty("retrofitGsonLibVersion") ? rootProject.retrofitGsonLibVersion : defaultRetrofitGsonLibVersion
+    gsonLibVersion = rootProject.hasProperty("gsonLibVersion") ? rootProject.gsonLibVersion : defaultGsonLibVersion
+    multiDexLibVersion = rootProject.hasProperty("multiDexLibVersion") ? rootProject.multiDexLibVersion : defaultMultiDexLibVersion
+    commonsIOLibVersion = rootProject.hasProperty("commonsIOLibVersion") ? rootProject.commonsIOLibVersion : defaultCommonsIOLibVersion
+    glideLibVersion = rootProject.hasProperty("glideLibVersion") ? rootProject.glideLibVersion : defaultGlideLibVersion
+    glideTransLibVersion = rootProject.hasProperty("glideTransLibVersion") ? rootProject.glideTransLibVersion : defaultGlideTransLibVersion
+    frescoLibVersion = rootProject.hasProperty("frescoLibVersion") ? rootProject.frescoLibVersion : defaultFrescoLibVersion
+    awsLibVersion = rootProject.hasProperty("awsLibVersion") ? rootProject.awsLibVersion : defaultAwsLibVersion
+    guavaLibVersion = rootProject.hasProperty("guavaLibVersion") ? rootProject.guavaLibVersion : defaultGuavaLibVersion
+    linkMovementLibVersion = rootProject.hasProperty("linkMovementLibVersion") ? rootProject.linkMovementLibVersion : defaultLinkMovementLibVersion
+    tagViewLibVersion = rootProject.hasProperty("tagViewLibVersion") ? rootProject.tagViewLibVersion : defaultTagViewLibVersion
+    spinnerMaterialLibVersion = rootProject.hasProperty("spinnerMaterialLibVersion") ? rootProject.spinnerMaterialLibVersion : defaultSpinnerMaterialLibVersion
+    googleLibVersion = rootProject.hasProperty("googleLibVersion") ? rootProject.googleLibVersion : defaultGoogleLibVersion
+
+
+
 }
+
+
 
 dependencies {
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'androidx.core:core-ktx:1.2.0'
 
-    implementation "com.android.support:appcompat-v7:$supportVersion"
-    implementation "com.android.support:support-v4:$supportVersion"
-    implementation "com.android.support:design:$supportVersion"
-    implementation "com.android.support:recyclerview-v7:$supportVersion"
-    implementation "com.android.support:cardview-v7:$supportVersion"
-    implementation "com.android.support:palette-v7:$supportVersion"
-    implementation "com.android.support:support-core-utils:$supportVersion"
-    implementation "com.android.support:customtabs:$supportVersion"
+//    compile "com.android.support:appcompat-v7:${supportLibVersion}"
+//    compile "com.android.support:design:${supportLibVersion}"
+//    compile "com.android.support:recyclerview-v7:${supportLibVersion}"
+//    compile "com.android.support:cardview-v7:${supportLibVersion}"
+//    compile "com.android.support:palette-v7:${supportLibVersion}"
+//    compile 'com.arasthel:asyncjob-library:1.0.3'
+//    compile 'com.squareup:otto:1.3.8'
+    implementation "com.android.support:appcompat-v7:$supportLibVersion"
+    implementation "com.android.support:support-v4:$supportLibVersion"
+    implementation "com.android.support:design:${supportLibVersion}"
+    implementation "com.android.support:recyclerview-v7:${supportLibVersion}"
+    implementation "com.android.support:cardview-v7:${supportLibVersion}"
+    implementation "com.android.support:palette-v7:${supportLibVersion}"
+    implementation "com.arasthel:asyncjob-library:${asyncLibVersion}"
+    implementation "com.squareup:otto:${ottoLibVersion}"
 
-    implementation "com.arasthel:asyncjob-library:1.0.3"
-    implementation "com.squareup:otto:1.3.8"
+    implementation "com.squareup.retrofit2:retrofit:${retrofitLibVersion}"
+    implementation "com.squareup.retrofit2:converter-gson:${retrofitGsonLibVersion}"
+    implementation "com.google.code.gson:gson:${gsonLibVersion}"
+    implementation "com.android.support:multidex:${multiDexLibVersion}"
+    implementation "commons-io:commons-io:${commonsIOLibVersion}"
 
-    implementation "com.squareup.retrofit2:retrofit:2.3.0"
-    implementation "com.squareup.retrofit2:converter-gson:2.0.2"
-    implementation "com.google.code.gson:gson:2.8.2"
-    implementation "com.android.support:multidex:1.0.2"
-    implementation "commons-io:commons-io:2.4"
+    implementation "jp.wasabeef:glide-transformations:${glideTransLibVersion}"
 
-    implementation "com.github.bumptech.glide:glide:3.7.0"
-    implementation "jp.wasabeef:glide-transformations:2.0.1"
-    implementation "com.facebook.fresco:fresco:1.5.0"
-    implementation "com.facebook.fresco:animated-gif:1.5.0"
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    implementation 'androidx.viewpager2:viewpager2:1.0.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+
+    implementation "com.facebook.fresco:fresco:${frescoLibVersion}"
+
+    // For animated GIF support
+    implementation "com.facebook.fresco:animated-gif:${frescoLibVersion}"
+    // For WebP support, including animated WebP
+    implementation "com.facebook.fresco:animated-webp:${frescoLibVersion}"
+    implementation "com.facebook.fresco:webpsupport:${frescoLibVersion}"
+
+    // If your app supports Android versions before Ice Cream Sandwich (API level 14)
+//    implementation "com.facebook.fresco:animated-base-support:${frescoLibVersion}"
+
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.19'
+
+    implementation "com.android.support:support-core-utils:${supportLibVersion}"
+    implementation "com.android.support:support-media-compat:${supportLibVersion}"
+
+    implementation "com.amazonaws:aws-android-sdk-core:${awsLibVersion}"
+    implementation "com.amazonaws:aws-android-sdk-s3:${awsLibVersion}"
+
+    implementation "com.google.guava:guava:${guavaLibVersion}"
+    implementation "me.saket:better-link-movement-method:${linkMovementLibVersion}"
 
 
-    implementation "com.amazonaws:aws-android-sdk-core:2.15.2"
-    implementation "com.amazonaws:aws-android-sdk-s3:2.15.2"
+    //Team Jello Tags
+//    compile 'co.lujun:androidtagview:1.1.4'
+//    compile "com.android.support:customtabs:${supportLibVersion}"
+//
+//    compile 'com.weiwangcn.betterspinner:library-material:1.1.0'
 
-    implementation "com.google.guava:guava:23.0-android"
-    implementation "me.saket:better-link-movement-method:1.2"
+    implementation "com.google.android:flexbox:2.0.1"
 
+    //Team Jello Tags
+    implementation "co.lujun:androidtagview:${tagViewLibVersion}"
+    implementation "com.android.support:customtabs:${supportLibVersion}"
+
+    implementation "me.leolin:ShortcutBadger:1.1.22@aar"
+    implementation "com.google.firebase:firebase-messaging:${googleLibVersion}"
+//    implementation "com.google.android.gms:play-services-auth:${googleLibVersion}"
+
+
+//    wannatalkImplementation ('org.jitsi.react:jitsi-meet-sdk:2.+') { transitive = true }
+//    implementation ('org.jitsi.react:jitsi-meet-sdk:2.+') { transitive = true }
+
+    implementation 'com.chauthai.overscroll:overscroll-bouncy:0.1.1'
+
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+
+    implementation 'com.google.android.libraries.places:places:2.3.0'
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
 
     implementation 'com.google.android.exoplayer:exoplayer-core:2.12.0'
     implementation 'com.google.android.exoplayer:exoplayer-dash:2.12.0'
     implementation 'com.google.android.exoplayer:exoplayer-ui:2.12.0'
+//    implementation 'com.google.android.exoplayer:exoplayer:2.7.3'
+
+
+//    implementation 'com.camerakit:camerakit:1.0.0-beta3.11'
+//    implementation 'com.camerakit:jpegkit:0.1.0'
+//    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.0'
+//    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.0.0'
+
+
+    // CameraX core library using the camera2 implementation
+    def camerax_version = "1.0.0-beta03"
+    implementation "androidx.camera:camera-camera2:${camerax_version}"
+    // If you want to additionally use the CameraX Lifecycle library
+    implementation "androidx.camera:camera-lifecycle:${camerax_version}"
+    // If you want to additionally use the CameraX View class
+    implementation "androidx.camera:camera-view:1.0.0-alpha10"
+    // If you want to additionally use the CameraX Extensions library
+    implementation "androidx.camera:camera-extensions:1.0.0-alpha10"
+
+
+//    implementation "com.android.support:appcompat-v7:$supportVersion"
+//    implementation "com.android.support:support-v4:$supportVersion"
+//    implementation "com.android.support:design:$supportVersion"
+//    implementation "com.android.support:recyclerview-v7:$supportVersion"
+//    implementation "com.android.support:cardview-v7:$supportVersion"
+//    implementation "com.android.support:palette-v7:$supportVersion"
+//    implementation "com.android.support:support-core-utils:$supportVersion"
+//    implementation "com.android.support:customtabs:$supportVersion"
+//
+//    implementation "com.arasthel:asyncjob-library:1.0.3"
+//    implementation "com.squareup:otto:1.3.8"
+//
+//    implementation "com.squareup.retrofit2:retrofit:2.3.0"
+//    implementation "com.squareup.retrofit2:converter-gson:2.0.2"
+//    implementation "com.google.code.gson:gson:2.8.2"
+//    implementation "com.android.support:multidex:1.0.2"
+//    implementation "commons-io:commons-io:2.4"
+//
+//    implementation "com.github.bumptech.glide:glide:3.7.0"
+//    implementation "jp.wasabeef:glide-transformations:2.0.1"
+//    implementation "com.facebook.fresco:fresco:1.5.0"
+//    implementation "com.facebook.fresco:animated-gif:1.5.0"
+//
+//
+//    implementation "com.amazonaws:aws-android-sdk-core:2.15.2"
+//    implementation "com.amazonaws:aws-android-sdk-s3:2.15.2"
+//
+//    implementation "com.google.guava:guava:23.0-android"
+//    implementation "me.saket:better-link-movement-method:1.2"
+//
+//
+//    implementation 'com.google.android.exoplayer:exoplayer-core:2.12.0'
+//    implementation 'com.google.android.exoplayer:exoplayer-dash:2.12.0'
+//    implementation 'com.google.android.exoplayer:exoplayer-ui:2.12.0'
 }
 
 
@@ -91,7 +268,7 @@ afterEvaluate {
                 from components.release
                 groupId = 'ai.wannatalk.wannatalk'
                 artifactId = 'wannatalk-support'
-                version = '1.0.0'
+                version = '1.0.1'
             }
         }
     }
