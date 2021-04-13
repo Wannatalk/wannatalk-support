@@ -1,0 +1,4 @@
+//include ':wannatalk'
+include ':wannatalk-support'
+include ':app'
+
